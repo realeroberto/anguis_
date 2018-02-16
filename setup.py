@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name = 'anguis',
-    version = '0.0.1',
+    version = '0.0.2',
     description = 'A generic key-store library',
     packages = [ 'anguis' ],
     author = 'Roberto Reale',
