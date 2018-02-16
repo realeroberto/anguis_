@@ -8,6 +8,10 @@ setup(
     author = 'Roberto Reale',
     author_email = 'rober.reale@gmail.com',
     url = 'https://github.com/robertoreale/anguis',
-    keywords = [ ],
-    install_requires = [ 'paramiko', 'redis' ]
+    keywords = [ 'cache', 'key-value store' ],
+    install_requires = [ 'paramiko', 'redis' ],
+    test_suite = 'nose.collector',
+    tests_require = ['nose'],
 )
+
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
