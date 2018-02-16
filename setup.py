@@ -9,5 +9,5 @@ setup(
     author_email = 'rober.reale@gmail.com',
     url = 'https://github.com/robertoreale/anguis',
     keywords = [ ],
-    install_requires = [ ]
+    install_requires = [ 'paramiko', 'redis' ]
 )
