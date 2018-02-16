@@ -8,6 +8,6 @@ setup(
     author = 'Roberto Reale',
     author_email = 'rober.reale@gmail.com',
     url = 'https://github.com/robertoreale/anguis',
-    keywords = [ , ],
+    keywords = [ ],
     install_requires = [ ]
 )
