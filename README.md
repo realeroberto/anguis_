@@ -2,7 +2,9 @@
 
 [![PyPI](https://img.shields.io/pypi/v/anguis.svg)](https://pypi.python.org/pypi/anguis)
 
-A generic key-store library in Python.
+*Latet anguis in herba* (Virgil, *Eclogues*, 3, 93)
+
+**anguis** is a generic key-store library in Python.
 
 ## Usage
 
