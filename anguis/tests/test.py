@@ -1,10 +1,18 @@
 from unittest import TestCase
 
-from anguis import anguisFS, anguisGit
+from anguis import anguisEtcd, anguisFS, anguisGit
 
 class Test(TestCase):
     def testFS(self):
         cache = anguisFS.AnguisFS(autoDestroy=True)
+
+        cache.set('foo', 'bar')
+        print(cache.get('foo'))
+
+        self.assertTrue(cache.get('foo') == 'bar')
+
+    def testEtcd(self):
+        cache = anguisEtcd.AnguisEtcd()
 
         cache.set('foo', 'bar')
         print(cache.get('foo'))

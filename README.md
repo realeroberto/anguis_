@@ -12,6 +12,7 @@ Currently, the following backends are supported:
 * SFTP
 * Git
 * Redis
+* Etcd
 
 
 ## Installation

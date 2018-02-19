@@ -9,7 +9,12 @@ setup(
     author_email = 'rober.reale@gmail.com',
     url = 'https://github.com/robertoreale/anguis',
     keywords = [ 'cache', 'key-value store' ],
-    install_requires = [ 'gitpython', 'paramiko', 'redis' ],
+    install_requires = [
+        'gitpython',
+        'paramiko',
+        'python-etcd',
+        'redis'
+    ],
     test_suite = 'nose.collector',
     tests_require = ['nose'],
 )
