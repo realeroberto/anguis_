@@ -4,7 +4,9 @@
 
 *Latet anguis in herba* (Virgil, *Eclogues*, 3, 93)
 
-**anguis** is a generic key-store library in Python. Currently, the following backends are supported:
+**anguis** is a generic key-store library in Python.
+
+Currently, the following backends are supported:
 
 * filesystem
 * SFTP
