@@ -4,11 +4,26 @@
 
 *Latet anguis in herba* (Virgil, *Eclogues*, 3, 93)
 
-**anguis** is a generic key-store library in Python.
+**anguis** is a generic key-store library in Python. Currently, the following backends are supported:
 
-## Usage
+* filesystem
+* SFTP
+* Git
+* Redis
 
-### File-system based cache
+
+## Installation
+
+From source:
+
+        $ python setup.py install
+
+From PyPI:
+
+        $ pip3 install anguis
+
+
+## Example of usage
 
 ```
 from anguis import anguisFS
@@ -18,38 +33,6 @@ cache = anguisFS.AnguisFS()
 cache.set('foo', 'bar')
 print(cache.get('foo'))
 # bar
-
-cache.erase('foo')
-print(cache.get('foo'))
-# None
-```
-
-### SFTP based cache
-
-```
-from anguis import anguisSFTP
-
-cache = anguisSFTP.AnguisSFTP('localhost', 'username', 'password')
-
-cache.set('foo', 'bar')
-print(cache.get('foo'))
-# bar
-
-cache.erase('foo')
-print(cache.get('foo'))
-# None
-```
-
-### Redis based cache
-
-```
-from anguis import anguisRedis
-
-cache = anguisRedis.AnguisRedis()
-
-cache.set('foo', 'bar')
-print(cache.get('foo'))
-# b'bar'
 
 cache.erase('foo')
 print(cache.get('foo'))
