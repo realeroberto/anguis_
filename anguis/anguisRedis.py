@@ -30,7 +30,7 @@ from anguis import anguisBase
 class AnguisRedis(anguisBase.AnguisBase):
 
     def get(self, key):
-        return self.r.get(key)
+        return self.r.get(key).decode('utf-8')
 
     def set(self, key, value):
         return self.r.set(key, value)
