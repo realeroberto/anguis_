@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from anguis import anguisEtcd, anguisFS, anguisGit
+from anguis import anguisEtcd, anguisFS, anguisGit, anguisRedis
 
 class Test(TestCase):
     def testFS(self):
@@ -21,6 +21,14 @@ class Test(TestCase):
 
     def testGit(self):
         cache = anguisGit.AnguisGit(dir='/tmp/git')
+
+        cache.set('foo', 'bar')
+        print(cache.get('foo'))
+
+        self.assertTrue(cache.get('foo') == 'bar')
+
+    def testRedis(self):
+        cache = anguisRedis.AnguisRedis()
 
         cache.set('foo', 'bar')
         print(cache.get('foo'))
