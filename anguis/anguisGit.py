@@ -26,39 +26,27 @@
 
 import os
 from git import Repo
-from anguis import anguisBase
+from anguis import anguisFS
 
-class AnguisGit(anguisBase.AnguisBase):
-
-    def _key_to_path(self, key):
-        return os.path.join(self.working_tree_dir, key)
-
-    def get(self, key):
-        try:
-            with open(self._key_to_path(key), "r") as h:
-                return h.readline()
-        except FileNotFoundError:
-            return None
+class AnguisGit(anguisFS.AnguisFS):
 
     def set(self, key, value):
-        path = self._key_to_path(key)
+        super(AnguisGit, self).set(key, value)
         index = self.repo.index
-        with open(path, "w") as h:
-            h.write("%s" % value)
+        path = self._key_to_path(key)
         index.add([path])
         index.commit("Add key %s" % key)
 
     def erase(self, key):
-        path = self._key_to_path(key)
         index = self.repo.index
+        path = self._key_to_path(key)
         index.remove([path])
         index.commit("Erase key %s" % key)
-        return os.remove(self._key_to_path(key))
+        super(AnguisGit, self).erase(key)
 
-    def __init__(self, working_tree_dir):
-        self.working_tree_dir = working_tree_dir
-        self.repo = Repo(self.working_tree_dir)
-        super(AnguisGit, self).__init__()
+    def __init__(self, dir, autoDestroy=False):
+        super(AnguisGit, self).__init__(dir, autoDestroy)
+        self.repo = Repo(self.dir)
 
     def __del__(self):
         super(AnguisGit, self).__del__()
