@@ -24,13 +24,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import redis
+from redis.client import Redis
 from anguis import anguisBase
 
 class AnguisRedis(anguisBase.AnguisBase):
 
     def get(self, key):
-        return self.r.get(key).decode('utf-8')
+        return self.r.get(key)
 
     def set(self, key, value):
         return self.r.set(key, value)
@@ -38,8 +38,23 @@ class AnguisRedis(anguisBase.AnguisBase):
     def erase(self, key):
         return self.r.delete(key)
 
+    def exists(self, key):
+        return (self.r.exists(key) > 1)
+
+    def keys(self):
+        return self.r.keys()
+
+    def randomkey(self):
+        return self.r.randomkey()
+
+    def rename(self, key, newkey):
+        return self.r.rename(key, newkey)
+
+    def touch(self, key):
+        return self.r.touch(key)
+
     def __init__(self, host='localhost', port=6379, db=0):
-        self.r = redis.StrictRedis(host, port, db)
+        self.r = Redis(host, port, db)
         super(AnguisRedis, self).__init__()
 
     def __del__(self):

@@ -2,12 +2,12 @@ from setuptools import setup
 
 setup(
     name = 'anguis',
-    version = '0.2',
+    version = '0.2.1',
     description = 'A generic key-store library',
     packages = [ 'anguis' ],
     author = 'Roberto Reale',
-    author_email = 'rober.reale@gmail.com',
-    url = 'https://github.com/robertoreale/anguis',
+    author_email = 'roberto@reale.me',
+    url = 'https://github.com/reale/anguis',
     keywords = [ 'cache', 'key-value store' ],
     install_requires = [
         'gitpython',

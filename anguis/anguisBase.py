@@ -37,6 +37,26 @@ class AnguisBase(object):
     def erase(self, key):
         pass
 
+    def exists(self):
+        """ Determine if a key exists """
+        pass
+
+    def keys(self):
+        """ Return all the keys of the keystore """
+        pass
+
+    def randomkey(self):
+        """ Return a random key from the keystore """
+        pass
+
+    def rename(self, key, newkey):
+        """ Rename a key """
+        pass
+
+    def touch(self, key):
+        """ Alters the last access time of a key """
+        pass
+
     def serialize(self, data):
         return json.dumps(data)
 

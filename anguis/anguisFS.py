@@ -25,6 +25,7 @@
 # SOFTWARE.
 
 import os
+import random
 import shutil
 from anguis import anguisBase
 
@@ -48,7 +49,24 @@ class AnguisFS(anguisBase.AnguisBase):
     def erase(self, key):
         return os.remove(self._key_to_path(key))
 
-    def __init__(self, dir=None, autoDestroy=False):
+    def exists(self, key):
+        return os.path.exists(self._key_to_path(key))
+
+    def keys(self):
+        return os.listdir(self.dir)
+
+    def randomkey(self):
+        return random.choice(self.keys())
+
+    def rename(self, key, newkey):
+        return os.rename(self._key_to_path(key), self._key_to_path(newkey))
+
+    def touch(self, key):
+        path = self._key_to_path(key)
+        with open(path, 'a'):
+            os.utime(path, None)
+
+    def __init__(self, dir=None, autoDestroy=True):
         if not dir:
             import tempfile
             dir = tempfile.mkdtemp()
