@@ -1,6 +1,6 @@
 # anguis
 
-[![PyPI](https://img.shields.io/pypi/v/anguis.svg)](https://pypi.python.org/pypi/anguis)
+[![PyPI](https://img.shields.io/pypi/v/anguis.svg)](https://pypi.org/project/anguis/)
 
 *Latet anguis in herba* (Virgil, *Eclogues*, 3, 93)
 
