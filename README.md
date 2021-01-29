@@ -4,15 +4,7 @@
 
 *Latet anguis in herba* (Virgil, *Eclogues*, 3, 93)
 
-**anguis** is a generic key-store library in Python.
-
-Currently, the following backends are supported:
-
-* filesystem
-* SFTP
-* Git
-* Redis
-* Etcd
+**anguis** is a distributed assert system over etcd.
 
 
 ## Installation
@@ -29,9 +21,9 @@ From PyPI:
 ## Example of usage
 
 ```
-from anguis import anguisFS
+from anguis import anguisEtcd
 
-cache = anguisFS.AnguisFS()
+cache = anguisEtcd.AnguisEtcd()
 
 cache.set('foo', 'bar')
 print(cache.get('foo'))
