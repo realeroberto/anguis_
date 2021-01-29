@@ -7,6 +7,11 @@
 **anguis** is a distributed assert system over etcd.
 
 
+## Rationale
+
+TODO
+
+
 ## Installation
 
 From source:
