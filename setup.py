@@ -13,7 +13,8 @@ setup(
         'gitpython',
         'paramiko',
         'python-etcd',
-        'redis'
+        'redis',
+        'boto3'
     ],
     test_suite = 'nose.collector',
     tests_require = ['nose'],
