@@ -24,26 +24,41 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import etcd
+from redis.client import Redis
 from anguis import anguisBase
 
-class AnguisEtcd(anguisBase.AnguisBase):
+class AnguisRedis(anguisBase.AnguisBase):
 
     def get(self, key):
-        return self.client.read(key).value
+        return self.r.get(key)
 
     def set(self, key, value):
-        return self.client.write(key, value)
+        return self.r.set(key, value)
 
     def erase(self, key):
-        return self.client.delete(key)
+        return self.r.delete(key)
 
-    def __init__(self, host='localhost', port=2379):
-        self.client = etcd.Client(host, port)
-        super(AnguisEtcd, self).__init__()
+    def exists(self, key):
+        return (self.r.exists(key) > 1)
+
+    def keys(self):
+        return self.r.keys()
+
+    def randomkey(self):
+        return self.r.randomkey()
+
+    def rename(self, key, newkey):
+        return self.r.rename(key, newkey)
+
+    def touch(self, key):
+        return self.r.touch(key)
+
+    def __init__(self, host='localhost', port=6379, db=0):
+        self.r = Redis(host, port, db)
+        super(AnguisRedis, self).__init__()
 
     def __del__(self):
-        super(AnguisEtcd, self).__del__()
-        # TODO: release self.client
+        super(AnguisRedis, self).__del__()
+        # TODO: close the connection
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

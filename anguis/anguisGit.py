@@ -24,26 +24,31 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import etcd
-from anguis import anguisBase
+import os
+from git import Repo
+from anguis import anguisFS
 
-class AnguisEtcd(anguisBase.AnguisBase):
-
-    def get(self, key):
-        return self.client.read(key).value
+class AnguisGit(anguisFS.AnguisFS):
 
     def set(self, key, value):
-        return self.client.write(key, value)
+        super(AnguisGit, self).set(key, value)
+        index = self.repo.index
+        path = self._key_to_path(key)
+        index.add([path])
+        index.commit("Add key %s" % key)
 
     def erase(self, key):
-        return self.client.delete(key)
+        index = self.repo.index
+        path = self._key_to_path(key)
+        index.remove([path])
+        index.commit("Erase key %s" % key)
+        super(AnguisGit, self).erase(key)
 
-    def __init__(self, host='localhost', port=2379):
-        self.client = etcd.Client(host, port)
-        super(AnguisEtcd, self).__init__()
+    def __init__(self, dir, autoDestroy=False):
+        super(AnguisGit, self).__init__(dir, autoDestroy)
+        self.repo = Repo(self.dir)
 
     def __del__(self):
-        super(AnguisEtcd, self).__del__()
-        # TODO: release self.client
+        super(AnguisGit, self).__del__()
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

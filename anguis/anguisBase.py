@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-# anguis - A distributed assert system over etcd
+# anguis - A generic key-store library
 
 # The MIT License (MIT)
 # 
-# Copyright (c) 2018-21 Roberto Reale
+# Copyright (c) 2018 Roberto Reale
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal

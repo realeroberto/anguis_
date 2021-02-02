@@ -24,26 +24,59 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import etcd
+import os
+import random
+import shutil
 from anguis import anguisBase
 
-class AnguisEtcd(anguisBase.AnguisBase):
+class AnguisFS(anguisBase.AnguisBase):
+
+    def _key_to_path(self, key):
+        return os.path.join(self.dir, key)
 
     def get(self, key):
-        return self.client.read(key).value
+        try:
+            with open(self._key_to_path(key), "r") as h:
+                return h.readline()
+        except FileNotFoundError:
+            return None
 
     def set(self, key, value):
-        return self.client.write(key, value)
+        path = self._key_to_path(key)
+        with open(path, "w") as h:
+            h.write("%s" % value)
 
     def erase(self, key):
-        return self.client.delete(key)
+        return os.remove(self._key_to_path(key))
 
-    def __init__(self, host='localhost', port=2379):
-        self.client = etcd.Client(host, port)
-        super(AnguisEtcd, self).__init__()
+    def exists(self, key):
+        return os.path.exists(self._key_to_path(key))
+
+    def keys(self):
+        return os.listdir(self.dir)
+
+    def randomkey(self):
+        return random.choice(self.keys())
+
+    def rename(self, key, newkey):
+        return os.rename(self._key_to_path(key), self._key_to_path(newkey))
+
+    def touch(self, key):
+        path = self._key_to_path(key)
+        with open(path, 'a'):
+            os.utime(path, None)
+
+    def __init__(self, dir=None, autoDestroy=True):
+        if not dir:
+            import tempfile
+            dir = tempfile.mkdtemp()
+        self.dir = dir
+        self.autoDestroy = autoDestroy
+        super(AnguisFS, self).__init__()
 
     def __del__(self):
-        super(AnguisEtcd, self).__del__()
-        # TODO: release self.client
+        super(AnguisFS, self).__del__()
+        if self.autoDestroy:
+            shutil.rmtree(self.dir)
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

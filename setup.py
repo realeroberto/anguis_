@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name = 'anguis',
-    version = '0.2.3',
+    version = '0.2.1',
     description = 'A generic key-store library',
     packages = [ 'anguis' ],
     author = 'Roberto Reale',
@@ -10,7 +10,10 @@ setup(
     url = 'https://github.com/reale/anguis',
     keywords = [ 'cache', 'key-value store' ],
     install_requires = [
+        'gitpython',
+        'paramiko',
         'python-etcd',
+        'redis'
     ],
     test_suite = 'nose.collector',
     tests_require = ['nose'],
