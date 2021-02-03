@@ -4,7 +4,7 @@
 
 # The MIT License (MIT)
 # 
-# Copyright (c) 2018 Roberto Reale
+# Copyright (c) 2018-21 Roberto Reale
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -29,36 +29,26 @@ from anguis import anguisBase
 
 class AnguisRedis(anguisBase.AnguisBase):
 
-    def get(self, key):
-        return self.r.get(key)
-
-    def set(self, key, value):
-        return self.r.set(key, value)
-
-    def erase(self, key):
-        return self.r.delete(key)
-
-    def exists(self, key):
-        return (self.r.exists(key) > 1)
-
-    def keys(self):
-        return self.r.keys()
-
-    def randomkey(self):
-        return self.r.randomkey()
-
-    def rename(self, key, newkey):
-        return self.r.rename(key, newkey)
-
-    def touch(self, key):
-        return self.r.touch(key)
-
-    def __init__(self, host='localhost', port=6379, db=0):
+    def __init__(self, host='localhost', port=6379, db=0, *args, **kwargs):
         self.r = Redis(host, port, db)
         super(AnguisRedis, self).__init__()
 
     def __del__(self):
         super(AnguisRedis, self).__del__()
-        # TODO: close the connection
+
+    def __getitem__(self, key):
+        return self.r.get(key)
+
+    def __setitem__(self, key, value):
+        return self.r.set(key, value)
+
+    def __delitem__(self, key):
+        return self.r.delete(key)
+
+    def __iter__(self):
+        return iter(self.r.keys())
+
+    def __len__(self):
+        return len(self.r.keys())
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

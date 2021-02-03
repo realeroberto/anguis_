@@ -4,7 +4,7 @@
 
 # The MIT License (MIT)
 # 
-# Copyright (c) 2018 Roberto Reale
+# Copyright (c) 2018-21 Roberto Reale
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -25,12 +25,11 @@
 # SOFTWARE.
 
 import os
-import string
 import random
+import string
 import stat
 import paramiko
 from anguis import anguisBase
-
 
 class AnguisSFTP(anguisBase.AnguisBase):
 
@@ -55,20 +54,6 @@ class AnguisSFTP(anguisBase.AnguisBase):
                 self.sftp.remove(path)
         self.sftp.rmdir(base)
 
-    def get(self, key):
-        try:
-            with self.sftp.open(self._key_to_path(key), "r") as h:
-                return h.readline()
-        except: # TODO: test for errors
-            return None
-
-    def set(self, key, value):
-        with self.sftp.open(self._key_to_path(key), "w") as h:
-            h.write("%s" % value)
-
-    def erase(self, key):
-        return self.sftp.remove(self._key_to_path(key))
-
     def __init__(self, hostname, username, password,
             dir=None, autoAddPolicy=True, autoDestroy=False):
         self.autoDestroy = autoDestroy
@@ -92,5 +77,26 @@ class AnguisSFTP(anguisBase.AnguisBase):
             self._rmtree(self.dir)
         if self.ssh:
             self.ssh.close()
+
+    def __getitem__(self, key):
+        try:
+            with self.sftp.open(self._key_to_path(key), "r") as h:
+                return h.readline()
+        except: # TODO: test for errors
+            return None
+        return self.r.get(key)
+
+    def __setitem__(self, key, value):
+        with self.sftp.open(self._key_to_path(key), "w") as h:
+            return h.write("%s" % value)
+
+    def __delitem__(self, key):
+        return self.sftp.remove(self._key_to_path(key))
+
+    def __iter__(self):
+        raise NotImplementedError
+
+    def __len__(self):
+        raise NotImplementedError
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

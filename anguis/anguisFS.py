@@ -4,7 +4,7 @@
 
 # The MIT License (MIT)
 # 
-# Copyright (c) 2018 Roberto Reale
+# Copyright (c) 2018-21 Roberto Reale
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,6 @@
 # SOFTWARE.
 
 import os
-import random
 import shutil
 from anguis import anguisBase
 
@@ -33,38 +32,6 @@ class AnguisFS(anguisBase.AnguisBase):
 
     def _key_to_path(self, key):
         return os.path.join(self.dir, key)
-
-    def get(self, key):
-        try:
-            with open(self._key_to_path(key), "r") as h:
-                return h.readline()
-        except FileNotFoundError:
-            return None
-
-    def set(self, key, value):
-        path = self._key_to_path(key)
-        with open(path, "w") as h:
-            h.write("%s" % value)
-
-    def erase(self, key):
-        return os.remove(self._key_to_path(key))
-
-    def exists(self, key):
-        return os.path.exists(self._key_to_path(key))
-
-    def keys(self):
-        return os.listdir(self.dir)
-
-    def randomkey(self):
-        return random.choice(self.keys())
-
-    def rename(self, key, newkey):
-        return os.rename(self._key_to_path(key), self._key_to_path(newkey))
-
-    def touch(self, key):
-        path = self._key_to_path(key)
-        with open(path, 'a'):
-            os.utime(path, None)
 
     def __init__(self, dir=None, autoDestroy=True):
         if not dir:
@@ -78,5 +45,26 @@ class AnguisFS(anguisBase.AnguisBase):
         super(AnguisFS, self).__del__()
         if self.autoDestroy:
             shutil.rmtree(self.dir)
+
+    def __getitem__(self, key):
+        try:
+            with open(self._key_to_path(key), "r") as h:
+                return h.readline()
+        except FileNotFoundError:
+            return None
+
+    def __setitem__(self, key, value):
+        path = self._key_to_path(key)
+        with open(path, "w") as h:
+            h.write("%s" % value)
+
+    def __delitem__(self, key):
+        return os.remove(self._key_to_path(key))
+
+    def __iter__(self):
+        return iter(os.listdir(self.dir))
+
+    def __len__(self):
+        return len(os.listdir(self.dir))
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

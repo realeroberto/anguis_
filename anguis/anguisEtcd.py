@@ -4,7 +4,7 @@
 
 # The MIT License (MIT)
 # 
-# Copyright (c) 2018 Roberto Reale
+# Copyright (c) 2018-21 Roberto Reale
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,26 +24,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import etcd
+import etcd3
 from anguis import anguisBase
 
 class AnguisEtcd(anguisBase.AnguisBase):
 
-    def get(self, key):
-        return self.client.read(key).value
-
-    def set(self, key, value):
-        return self.client.write(key, value)
-
-    def erase(self, key):
-        return self.client.delete(key)
-
     def __init__(self, host='localhost', port=2379):
-        self.client = etcd.Client(host, port)
+        self.etcd = etcd3.client(host, port)
         super(AnguisEtcd, self).__init__()
 
     def __del__(self):
         super(AnguisEtcd, self).__del__()
-        # TODO: release self.client
+        self.etcd.close()
+
+    def __getitem__(self, key):
+        return self.etcd.get(key)[0]
+
+    def __setitem__(self, key, value):
+        return self.etcd.put(key, value)
+
+    def __delitem__(self, key):
+        return self.etcd.delete(key)
+
+    def __iter__(self):
+        return iter([m.key for (_, m) in self.etcd.get_all()])
+
+    def __len__(self):
+        return sum(1 for _ in self.etcd.get_all())
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
