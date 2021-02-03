@@ -24,12 +24,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# https://stackoverflow.com/questions/3387691/how-to-perfectly-override-a-dict
+from sqlitedict import SqliteDict
+from anguis import anguisBase
 
-from collections.abc import MutableMapping
+class AnguisSqlite(anguisBase.AnguisBase):
 
-class AnguisBase(MutableMapping):
+    def __init__(self, path):
+        self.sd = SqliteDict(path, autocommit=True)
+
     def __del__(self):
-        pass
+        super(AnguisSqlite, self).__del__()
+
+    def __getitem__(self, key):
+        return self.sd.__getitem__(key)
+
+    def __setitem__(self, key, value):
+        self.sd.__setitem__(key, value)
+
+    def __delitem__(self, key):
+        self.sd.__delitem__(key)
+
+    def __iter__(self):
+        return self.sd.__iter__()
+
+    def __len__(self):
+        return len(self.sd)
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
