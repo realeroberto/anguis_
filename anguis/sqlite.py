@@ -25,7 +25,7 @@
 # SOFTWARE.
 
 from sqlitedict import SqliteDict
-from .base import AnguisBase
+from anguis.base import AnguisBase
 
 class AnguisSqlite(AnguisBase):
 

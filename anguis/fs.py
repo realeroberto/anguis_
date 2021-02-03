@@ -26,7 +26,7 @@
 
 import os
 import shutil
-from .base import AnguisBase
+from anguis.base import AnguisBase
 
 class AnguisFS(AnguisBase):
 

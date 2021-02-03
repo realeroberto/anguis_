@@ -29,7 +29,7 @@ import random
 import string
 import stat
 import paramiko
-from .base import AnguisBase
+from anguis.base import AnguisBase
 
 class AnguisSFTP(AnguisBase):
 
