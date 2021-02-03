@@ -16,7 +16,10 @@ requirements = [
         'etcd3',
         'redis',
         'sqlitedict',
-        'pymemcache'
+        'pymemcache',
+        'google-api-python-client',
+        'google-auth-httplib2',
+        'google-auth-oauthlib'
         ]
 
 setup_requirements = [ ]

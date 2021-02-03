@@ -29,6 +29,7 @@ Currently, the following backends are supported:
 -  memcached
 -  SFTP
 -  Sqlite
+-  Google Drive
 
 Rationale
 ---------
