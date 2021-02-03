@@ -15,7 +15,8 @@ requirements = [
         'paramiko',
         'etcd3',
         'redis',
-        'sqlitedict'
+        'sqlitedict',
+        'pymemcache'
         ]
 
 setup_requirements = [ ]
@@ -49,7 +50,7 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/reale/anguis',
-    version='0.3.3',
+    version='0.3.4',
     zip_safe=False,
 )
 

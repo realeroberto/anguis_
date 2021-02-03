@@ -53,6 +53,12 @@ class Test(TestCase):
         cache['foo'] = 'bar'
         self.assertTrue(cache['foo'] == 'bar')
 
+    def testMemcached(self):
+        cache = AnguisMemcached()
+
+        cache['foo'] = 'bar'
+        self.assertTrue(cache['foo'] == 'bar')
+
     def testRedis(self):
         cache = AnguisRedis()
 

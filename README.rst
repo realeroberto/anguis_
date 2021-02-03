@@ -26,6 +26,7 @@ Currently, the following backends are supported:
 -  Etcd
 -  Git
 -  Redis
+-  memcached
 -  SFTP
 -  Sqlite
 
