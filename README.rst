@@ -54,9 +54,9 @@ Example of usage
 
 ::
 
-    from anguis import anguisFS
+    from anguis.fs import AnguisFS
 
-    cache = anguisFS.AnguisFS()
+    cache = AnguisFS()
 
     cache['foo'] = 'bar'
     print(cache['foo'])
