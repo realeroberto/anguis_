@@ -24,52 +24,31 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-from unittest import TestCase
+from redis.client import Redis
+from .base import AnguisBase
 
-from anguis import anguisEtcd, anguisFS, anguisGit, anguisRedis, anguisSFTP
+class AnguisRedis(AnguisBase):
 
-class Test(TestCase):
-    def testFS(self):
-        cache = anguisFS.AnguisFS(autoDestroy=True)
+    def __init__(self, host='localhost', port=6379, db=0, *args, **kwargs):
+        self.r = Redis(host, port, db)
+        super(AnguisRedis, self).__init__()
 
-        cache['foo'] = 'bar'
-        self.assertTrue(cache['foo'] == 'bar')
+    def __del__(self):
+        super(AnguisRedis, self).__del__()
 
-    def testEtcd(self):
-        cache = anguisEtcd.AnguisEtcd()
+    def __getitem__(self, key):
+        return self.r.get(key)
 
-        cache['foo'] = 'bar'
-        self.assertTrue(cache['foo'] == 'bar')
+    def __setitem__(self, key, value):
+        return self.r.set(key, value)
 
-    def testGit(self):
-        cache = anguisGit.AnguisGit(dir='/tmp/git')
+    def __delitem__(self, key):
+        return self.r.delete(key)
 
-        cache['foo'] = 'bar'
-        self.assertTrue(cache['foo'] == 'bar')
+    def __iter__(self):
+        return iter(self.r.keys())
 
-    def testRedis(self):
-        cache = anguisRedis.AnguisRedis()
-
-        cache['foo'] = 'bar'
-        self.assertTrue(cache['foo'] == 'bar')
-
-    def testSFTP(self):
-        hostname = os.environ['SFTP_HOSTNAME']
-        username = os.environ['SFTP_USERNAME']
-        password = os.environ['SFTP_PASSWORD']
-        dir = os.environ['SFTP_DIR']
-
-        cache = anguisSFTP.AnguisSFTP(hostname, username, password, dir)
-
-        cache['foo'] = 'bar'
-        self.assertTrue(cache['foo'] == 'bar')
-
-    def testSqlite(self):
-        cache = anguisSqlite.AnguisSqlite()
-
-        cache['foo'] = 'bar'
-        self.assertTrue(cache['foo'] == 'bar')
-
+    def __len__(self):
+        return len(self.r.keys())
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

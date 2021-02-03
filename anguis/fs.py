@@ -24,30 +24,47 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from sqlitedict import SqliteDict
-from anguis import anguisBase
+import os
+import shutil
+from .base import AnguisBase
 
-class AnguisSqlite(anguisBase.AnguisBase):
+class AnguisFS(AnguisBase):
 
-    def __init__(self, path):
-        self.sd = SqliteDict(path, autocommit=True)
+    def _key_to_path(self, key):
+        return os.path.join(self.dir, key)
+
+    def __init__(self, dir=None, autoDestroy=True):
+        if not dir:
+            import tempfile
+            dir = tempfile.mkdtemp()
+        self.dir = dir
+        self.autoDestroy = autoDestroy
+        super(AnguisFS, self).__init__()
 
     def __del__(self):
-        super(AnguisSqlite, self).__del__()
+        super(AnguisFS, self).__del__()
+        if self.autoDestroy:
+            shutil.rmtree(self.dir)
 
     def __getitem__(self, key):
-        return self.sd.__getitem__(key)
+        try:
+            with open(self._key_to_path(key), "r") as h:
+                return h.readline()
+        except FileNotFoundError:
+            return None
 
     def __setitem__(self, key, value):
-        self.sd.__setitem__(key, value)
+        path = self._key_to_path(key)
+        with open(path, "w") as h:
+            h.write("%s" % value)
 
     def __delitem__(self, key):
-        self.sd.__delitem__(key)
+        return os.remove(self._key_to_path(key))
 
     def __iter__(self):
-        return self.sd.__iter__()
+        return iter(os.listdir(self.dir))
 
     def __len__(self):
-        return len(self.sd)
+        return len(os.listdir(self.dir))
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
