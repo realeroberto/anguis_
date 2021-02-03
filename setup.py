@@ -13,7 +13,7 @@ with open('HISTORY.rst') as history_file:
 requirements = [
         'gitpython',
         'paramiko',
-        'python-etcd3',
+        'etcd3',
         'redis',
         'sqlitedict'
         ]
@@ -49,7 +49,7 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/reale/anguis',
-    version='0.3.0',
+    version='0.3.1',
     zip_safe=False,
 )
 
