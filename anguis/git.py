@@ -24,32 +24,47 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import etcd3
-from anguis import anguisBase
+import os
+from git import Repo
+from .fs import AnguisFS
 
-class AnguisEtcd(anguisBase.AnguisBase):
+class AnguisGit(AnguisFS):
 
-    def __init__(self, host='localhost', port=2379):
-        self.etcd = etcd3.client(host, port)
-        super(AnguisEtcd, self).__init__()
+    def _listfiles(self):
+        files = []
+        for fname in os.listdir(self.dir):
+            path = os.path.join(self.dir, fname)
+            if os.path.isdir(path):
+                continue
+            else:
+                files.append(fname)
+        return files
+
+    def __init__(self, dir, autoDestroy=False):
+        super(AnguisGit, self).__init__(dir, autoDestroy)
+        self.repo = Repo(self.dir)
 
     def __del__(self):
-        super(AnguisEtcd, self).__del__()
-        self.etcd.close()
-
-    def __getitem__(self, key):
-        return self.etcd.get(key)[0]
+        super(AnguisGit, self).__del__()
 
     def __setitem__(self, key, value):
-        return self.etcd.put(key, value)
+        super(AnguisGit, self).__setitem__(key, value)
+        index = self.repo.index
+        path = self._key_to_path(key)
+        index.add([path])
+        index.commit("Add key %s" % key)
 
     def __delitem__(self, key):
-        return self.etcd.delete(key)
+        index = self.repo.index
+        path = self._key_to_path(key)
+        index.remove([path])
+        index.commit("Erase key %s" % key)
+        super(AnguisGit, self).__delitem__(key)
 
     def __iter__(self):
-        return iter([m.key for (_, m) in self.etcd.get_all()])
+        return iter(self._listfiles())
 
     def __len__(self):
-        return sum(1 for _ in self.etcd.get_all())
+        return len(self._listfiles())
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

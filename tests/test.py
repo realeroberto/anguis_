@@ -25,46 +25,56 @@
 # SOFTWARE.
 
 import os
-from git import Repo
-from anguis import anguisFS
+from unittest import TestCase
 
-class AnguisGit(anguisFS.AnguisFS):
+from anguis.fs import *
+from anguis.etcd import *
+from anguis.git import *
+from anguis.redis import *
+from anguis.sftp import *
+from anguis.sqlite import *
 
-    def _listfiles(self):
-        files = []
-        for fname in os.listdir(self.dir):
-            path = os.path.join(self.dir, fname)
-            if os.path.isdir(path):
-                continue
-            else:
-                files.append(fname)
-        return files
+class Test(TestCase):
+    def testFS(self):
+        cache = AnguisFS(autoDestroy=True)
 
-    def __init__(self, dir, autoDestroy=False):
-        super(AnguisGit, self).__init__(dir, autoDestroy)
-        self.repo = Repo(self.dir)
+        cache['foo'] = 'bar'
+        self.assertTrue(cache['foo'] == 'bar')
 
-    def __del__(self):
-        super(AnguisGit, self).__del__()
+    def testEtcd(self):
+        cache = AnguisEtcd()
 
-    def __setitem__(self, key, value):
-        super(AnguisGit, self).__setitem__(key, value)
-        index = self.repo.index
-        path = self._key_to_path(key)
-        index.add([path])
-        index.commit("Add key %s" % key)
+        cache['foo'] = 'bar'
+        self.assertTrue(cache['foo'] == 'bar')
 
-    def __delitem__(self, key):
-        index = self.repo.index
-        path = self._key_to_path(key)
-        index.remove([path])
-        index.commit("Erase key %s" % key)
-        super(AnguisGit, self).__delitem__(key)
+    def testGit(self):
+        cache = AnguisGit(dir='/tmp/git')
 
-    def __iter__(self):
-        return iter(self._listfiles())
+        cache['foo'] = 'bar'
+        self.assertTrue(cache['foo'] == 'bar')
 
-    def __len__(self):
-        return len(self._listfiles())
+    def testRedis(self):
+        cache = AnguisRedis()
+
+        cache['foo'] = 'bar'
+        self.assertTrue(cache['foo'] == 'bar')
+
+    def testSFTP(self):
+        hostname = os.environ['SFTP_HOSTNAME']
+        username = os.environ['SFTP_USERNAME']
+        password = os.environ['SFTP_PASSWORD']
+        dir = os.environ['SFTP_DIR']
+
+        cache = AnguisSFTP(hostname, username, password, dir)
+
+        cache['foo'] = 'bar'
+        self.assertTrue(cache['foo'] == 'bar')
+
+    def testSqlite(self):
+        cache = AnguisSqlite()
+
+        cache['foo'] = 'bar'
+        self.assertTrue(cache['foo'] == 'bar')
+
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

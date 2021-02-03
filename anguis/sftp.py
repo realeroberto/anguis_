@@ -29,9 +29,9 @@ import random
 import string
 import stat
 import paramiko
-from anguis import anguisBase
+from .base import AnguisBase
 
-class AnguisSFTP(anguisBase.AnguisBase):
+class AnguisSFTP(AnguisBase):
 
     def _key_to_path(self, key):
         return os.path.join(self.dir, key)

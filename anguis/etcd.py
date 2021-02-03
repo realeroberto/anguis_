@@ -24,31 +24,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from redis.client import Redis
-from anguis import anguisBase
+import etcd3
+from .base import AnguisBase
 
-class AnguisRedis(anguisBase.AnguisBase):
+class AnguisEtcd(AnguisBase):
 
-    def __init__(self, host='localhost', port=6379, db=0, *args, **kwargs):
-        self.r = Redis(host, port, db)
-        super(AnguisRedis, self).__init__()
+    def __init__(self, host='localhost', port=2379):
+        self.etcd = etcd3.client(host, port)
+        super(AnguisEtcd, self).__init__()
 
     def __del__(self):
-        super(AnguisRedis, self).__del__()
+        super(AnguisEtcd, self).__del__()
+        self.etcd.close()
 
     def __getitem__(self, key):
-        return self.r.get(key)
+        return self.etcd.get(key)[0]
 
     def __setitem__(self, key, value):
-        return self.r.set(key, value)
+        return self.etcd.put(key, value)
 
     def __delitem__(self, key):
-        return self.r.delete(key)
+        return self.etcd.delete(key)
 
     def __iter__(self):
-        return iter(self.r.keys())
+        return iter([m.key for (_, m) in self.etcd.get_all()])
 
     def __len__(self):
-        return len(self.r.keys())
+        return sum(1 for _ in self.etcd.get_all())
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
