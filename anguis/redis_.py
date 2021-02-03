@@ -25,7 +25,7 @@
 # SOFTWARE.
 
 from redis.client import Redis
-from .base import AnguisBase
+from anguis.base import AnguisBase
 
 class AnguisRedis(AnguisBase):
 

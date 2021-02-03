@@ -29,8 +29,8 @@ from unittest import TestCase
 
 from anguis.fs import *
 from anguis.etcd import *
-from anguis.git import *
-from anguis.redis import *
+from anguis.git_ import *
+from anguis.redis_ import *
 from anguis.sftp import *
 from anguis.sqlite import *
 

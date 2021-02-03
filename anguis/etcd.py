@@ -25,7 +25,7 @@
 # SOFTWARE.
 
 import etcd3
-from .base import AnguisBase
+from anguis.base import AnguisBase
 
 class AnguisEtcd(AnguisBase):
 

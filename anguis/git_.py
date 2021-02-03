@@ -26,7 +26,7 @@
 
 import os
 from git import Repo
-from .fs import AnguisFS
+from anguis.fs import AnguisFS
 
 class AnguisGit(AnguisFS):
 
