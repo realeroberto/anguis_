@@ -53,7 +53,7 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/reale/anguis',
-    version='0.3.6',
+    version='0.3.7',
     zip_safe=False,
 )
 
