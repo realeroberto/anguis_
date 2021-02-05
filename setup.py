@@ -17,6 +17,10 @@ requirements = [
         'redis',
         'boto3'
         'sqlitedict'
+        'pymemcache',
+        'google-api-python-client',
+        'google-auth-httplib2',
+        'google-auth-oauthlib'
         ]
 
 setup_requirements = [ ]
@@ -49,7 +53,7 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/reale/anguis',
-    version='0.3.3',
+    version='0.3.5',
     zip_safe=False,
 )
 

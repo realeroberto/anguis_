@@ -30,6 +30,7 @@ from unittest import TestCase
 from anguis.fs import *
 from anguis.etcd import *
 from anguis.git_ import *
+from anguis.gdrive import *
 from anguis.redis_ import *
 from anguis.sftp import *
 from anguis.sqlite import *
@@ -49,6 +50,18 @@ class Test(TestCase):
 
     def testGit(self):
         cache = AnguisGit(dir='/tmp/git')
+
+        cache['foo'] = 'bar'
+        self.assertTrue(cache['foo'] == 'bar')
+
+    def testGdrive(self):
+        cache = AnguisGdrive()
+
+        cache['foo'] = 'bar'
+        self.assertTrue(cache['foo'] == 'bar')
+
+    def testMemcached(self):
+        cache = AnguisMemcached()
 
         cache['foo'] = 'bar'
         self.assertTrue(cache['foo'] == 'bar')

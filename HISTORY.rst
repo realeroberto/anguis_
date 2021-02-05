@@ -2,6 +2,16 @@
 History
 =======
 
+0.3.5 (2021-02-03)
+------------------
+
+* Partial support for Google Drive.
+
+0.3.4 (2021-02-03)
+------------------
+
+* Partial support for memcached.
+
 0.3.3 (2021-02-03)
 ------------------
 
