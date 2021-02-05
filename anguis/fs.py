@@ -48,15 +48,15 @@ class AnguisFS(AnguisBase):
 
     def __getitem__(self, key):
         try:
-            with open(self._key_to_path(key), "r") as h:
-                return h.readline()
+            with open(self._key_to_path(key), "rb") as fp:
+                return self.unserialize(fp.read())
         except FileNotFoundError:
             return None
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key, obj):
         path = self._key_to_path(key)
-        with open(path, "w") as h:
-            h.write("%s" % value)
+        with open(path, "wb") as fp:
+            fp.write(self.serialize(obj))
 
     def __delitem__(self, key):
         return os.remove(self._key_to_path(key))

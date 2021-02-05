@@ -47,8 +47,8 @@ class AnguisGit(AnguisFS):
     def __del__(self):
         super(AnguisGit, self).__del__()
 
-    def __setitem__(self, key, value):
-        super(AnguisGit, self).__setitem__(key, value)
+    def __setitem__(self, key, obj):
+        super(AnguisGit, self).__setitem__(key, obj)
         index = self.repo.index
         path = self._key_to_path(key)
         index.add([path])

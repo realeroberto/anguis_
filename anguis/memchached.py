@@ -37,10 +37,10 @@ class AnguisMemcached(AnguisBase):
         super(AnguisMemcached, self).__del__()
 
     def __getitem__(self, key):
-        return self.client.get(key)
+        return self.unserialize(self.client.get(key))
 
-    def __setitem__(self, key, value):
-        return self.client.set(key, value)
+    def __setitem__(self, key, obj):
+        self.client.set(key, self.serialize(obj))
 
     def __delitem__(self, key):
         raise NotImplementedError

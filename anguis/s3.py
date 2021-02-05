@@ -37,10 +37,10 @@ class AnguisS3(AnguisBase):
         super(AnguisS3, self).__del__()
 
     def __getitem__(self, key):
-        return self.bucket.get(key)
+        return self.unserialize(self.bucket.get(key))
 
-    def __setitem__(self, key, value):
-        return self.bucket.set(key, value)
+    def __setitem__(self, key, obj):
+        self.bucket.set(key, self.serialize(obj))
 
     def __delitem__(self, key):
         del self.bucket[key]

@@ -38,10 +38,10 @@ class AnguisEtcd(AnguisBase):
         self.etcd.close()
 
     def __getitem__(self, key):
-        return self.etcd.get(key)[0]
+        return self.unserialize(self.etcd.get(key)[0])
 
     def __setitem__(self, key, value):
-        return self.etcd.put(key, value)
+        return self.etcd.put(key, self.serialize(value))
 
     def __delitem__(self, key):
         return self.etcd.delete(key)

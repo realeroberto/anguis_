@@ -36,10 +36,10 @@ class AnguisSqlite(AnguisBase):
         super(AnguisSqlite, self).__del__()
 
     def __getitem__(self, key):
-        return self.sd.__getitem__(key)
+        return self.unserialize(self.sd.__getitem__(key))
 
-    def __setitem__(self, key, value):
-        self.sd.__setitem__(key, value)
+    def __setitem__(self, key, obj):
+        self.sd.__setitem__(key, self.serialize(obj))
 
     def __delitem__(self, key):
         self.sd.__delitem__(key)

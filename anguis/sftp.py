@@ -80,15 +80,14 @@ class AnguisSFTP(AnguisBase):
 
     def __getitem__(self, key):
         try:
-            with self.sftp.open(self._key_to_path(key), "r") as h:
-                return h.readline()
-        except: # TODO: test for errors
-            return None
-        return self.r.get(key)
+            with self.sftp.open(self._key_to_path(key), "rb") as fp:
+                return self.unserialize(fp.read())
+        except:
+            raise KeyError
 
-    def __setitem__(self, key, value):
-        with self.sftp.open(self._key_to_path(key), "w") as h:
-            return h.write("%s" % value)
+    def __setitem__(self, key, obj):
+        with self.sftp.open(self._key_to_path(key), "wb") as fp:
+            fp.write(self.serialize(obj))
 
     def __delitem__(self, key):
         return self.sftp.remove(self._key_to_path(key))

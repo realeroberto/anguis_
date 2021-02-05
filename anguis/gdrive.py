@@ -72,10 +72,10 @@ class AnguisGdrive(AnguisBase):
     def __getitem__(self, key):
         raise NotImplementedError
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key, obj):
         file_metadata = {'name': key}
         with tempfile.NamedTemporaryFile() as fp:
-            pickle.dump(value, fp)
+            pickle.dump(obj, fp)
             media = MediaFileUpload(fp.name, mimetype='octet/stream')
             file = self.service.files().create(body=file_metadata,
                                                 media_body=media,

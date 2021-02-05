@@ -37,10 +37,10 @@ class AnguisRedis(AnguisBase):
         super(AnguisRedis, self).__del__()
 
     def __getitem__(self, key):
-        return self.r.get(key)
+        return self.unserialize(self.r.get(key))
 
-    def __setitem__(self, key, value):
-        return self.r.set(key, value)
+    def __setitem__(self, key, obj):
+        self.r.set(key, self.serialize(obj))
 
     def __delitem__(self, key):
         return self.r.delete(key)

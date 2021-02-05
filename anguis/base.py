@@ -26,9 +26,17 @@
 
 # https://stackoverflow.com/questions/3387691/how-to-perfectly-override-a-dict
 
+import pickle
 from collections.abc import MutableMapping
 
 class AnguisBase(MutableMapping):
+
+    def serialize(self, obj):
+        return pickle.dumps(obj)
+
+    def unserialize(self, data):
+        return pickle.loads(data)
+
     def __del__(self):
         pass
 
