@@ -32,6 +32,7 @@ from anguis.etcd import *
 from anguis.git_ import *
 from anguis.gdrive import *
 from anguis.redis_ import *
+from anguis.s3 import *
 from anguis.sftp import *
 from anguis.sqlite import *
 
@@ -68,6 +69,13 @@ class Test(TestCase):
 
     def testRedis(self):
         cache = AnguisRedis()
+
+        cache['foo'] = 'bar'
+        self.assertTrue(cache['foo'] == 'bar')
+
+    def testS3(self):
+        import uuid
+        cache = AnguisS3(str(uuid.uuid4()), create=True)
 
         cache['foo'] = 'bar'
         self.assertTrue(cache['foo'] == 'bar')

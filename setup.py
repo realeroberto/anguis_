@@ -15,8 +15,8 @@ requirements = [
         'paramiko',
         'etcd3',
         'redis',
-        'boto3'
-        'sqlitedict'
+        'bucketstore',
+        'sqlitedict',
         'pymemcache',
         'google-api-python-client',
         'google-auth-httplib2',
