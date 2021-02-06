@@ -2,6 +2,12 @@
 History
 =======
 
+0.3.8 (2021-02-08)
+------------------
+
+* Remove hard deps for subclasses.
+* Enhance memcached support.
+
 0.3.7 (2021-02-05)
 ------------------
 
