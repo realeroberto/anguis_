@@ -24,8 +24,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from pymemcache.client import base as mc
 from anguis.base import AnguisBase
+
+try:
+    from pymemcache.client import base as mc
+except ModuleNotFoundError:
+    print("Please run: pip3 install --upgrade --user pymemcache")
 
 class AnguisMemcached(AnguisBase):
 

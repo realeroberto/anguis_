@@ -24,8 +24,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from sqlitedict import SqliteDict
 from anguis.base import AnguisBase
+
+try:
+    from sqlitedict import SqliteDict
+except ModuleNotFoundError:
+    print("Please run: pip3 install --upgrade --user sqlitedict")
 
 class AnguisSqlite(AnguisBase):
 

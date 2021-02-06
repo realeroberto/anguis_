@@ -24,8 +24,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import bucketstore
 from anguis.base import AnguisBase
+
+try:
+    import bucketstore
+except ModuleNotFoundError:
+    print("Please run: pip3 install --upgrade --user bucketstore")
 
 class AnguisS3(AnguisBase):
 

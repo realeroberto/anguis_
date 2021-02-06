@@ -24,8 +24,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import etcd3
 from anguis.base import AnguisBase
+
+try:
+    import etcd3
+except ModuleNotFoundError:
+    print("Please run: pip3 install --upgrade --user etcd3")
 
 class AnguisEtcd(AnguisBase):
 

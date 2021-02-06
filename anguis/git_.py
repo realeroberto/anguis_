@@ -25,8 +25,12 @@
 # SOFTWARE.
 
 import os
-from git import Repo
 from anguis.fs import AnguisFS
+
+try:
+    from git import Repo
+except ModuleNotFoundError:
+    print("Please run: pip3 install --upgrade --user gitpython")
 
 class AnguisGit(AnguisFS):
 

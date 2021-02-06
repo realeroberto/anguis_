@@ -28,13 +28,16 @@
 
 import os.path
 import tempfile
-import pickle
-from googleapiclient.discovery import build
-from googleapiclient.http import MediaFileUpload
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
 from anguis.base import AnguisBase
+
+try:
+    from googleapiclient.discovery import build
+    from googleapiclient.http import MediaFileUpload
+    from google_auth_oauthlib.flow import InstalledAppFlow
+    from google.auth.transport.requests import Request
+    from google.oauth2.credentials import Credentials
+except ModuleNotFoundError:
+    print("Please run: pip3 install --upgrade --user google-api-python-client google-auth-httplib2 google-auth-oauthlib")
 
 class AnguisGdrive(AnguisBase):
 

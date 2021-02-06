@@ -10,18 +10,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [
-        'gitpython',
-        'paramiko',
-        'etcd3',
-        'redis',
-        'bucketstore',
-        'sqlitedict',
-        'pymemcache',
-        'google-api-python-client',
-        'google-auth-httplib2',
-        'google-auth-oauthlib'
-        ]
+requirements = [ ]
 
 setup_requirements = [ ]
 

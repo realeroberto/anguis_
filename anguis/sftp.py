@@ -28,8 +28,12 @@ import os
 import random
 import string
 import stat
-import paramiko
 from anguis.base import AnguisBase
+
+try:
+    import paramiko
+except ModuleNotFoundError:
+    print("Please run: pip3 install --upgrade --user paramiko")
 
 class AnguisSFTP(AnguisBase):
 
