@@ -27,6 +27,7 @@ Currently, the following backends are supported:
 -  Git
 -  Redis
 -  memcached
+-  MongoDB
 -  SFTP
 -  Sqlite
 -  AWS S3
